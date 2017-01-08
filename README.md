@@ -10,3 +10,11 @@ Udacity Nano degree Project 3.
 `model.h5` - The model weights.
 
 `Readme.md` - Explains the structure of the network.
+
+- - -
+
+
+Install the next packages:
+> sudo /opt/anaconda3/bin/conda install -c conda-forge eventlet=0.19.0
+
+> sudo /opt/anaconda3/bin/conda install -c conda-forge flask-socketio
