@@ -28,3 +28,12 @@ Metadata of simulator generated images:
 File type: Jpg
 Dimensions: 320x160
 
+- - -
+
+notes:
+
+Command to run the DS4 
+
+```
+sudo ds4drv  --trackpad-mouse --dump-reports --emulate-xboxdrv
+```
