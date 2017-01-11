@@ -11,10 +11,20 @@ Udacity Nano degree Project 3.
 
 `Readme.md` - Explains the structure of the network.
 
-- - -
+
+
+
 
 
 Install the next packages:
 > sudo /opt/anaconda3/bin/conda install -c conda-forge eventlet=0.19.0
 
 > sudo /opt/anaconda3/bin/conda install -c conda-forge flask-socketio
+
+
+#### Data description:
+
+Metadata of simulator generated images:
+File type: Jpg
+Dimensions: 320x160
+
