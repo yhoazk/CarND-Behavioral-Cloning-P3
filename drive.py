@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import argparse
 import base64
 import json
@@ -43,7 +44,9 @@ def telemetry(sid, data):
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
-    throttle = 0.2
+#    throttle = '0.01' if throttle <= '0.0' else throttle
+#    throttle = str(int(throttle)*1.1) if (int(throttle) < 0.2) else throttle
+    throttle = 0.15
     print(steering_angle, throttle)
     send_control(steering_angle, throttle)
 
