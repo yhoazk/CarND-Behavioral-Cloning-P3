@@ -20,6 +20,8 @@ from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 import tensorflow as tf
 tf.python.control_flow_ops = tf
 
+import matplotlib.pyplot as plt
+import cv2
 
 sio = socketio.Server()
 app = Flask(__name__)
@@ -47,6 +49,7 @@ def telemetry(sid, data):
 #    throttle = '0.01' if throttle <= '0.0' else throttle
 #    throttle = str(int(throttle)*1.1) if (int(throttle) < 0.2) else throttle
     throttle = 0.2
+    cv2.imwrite(str(steering_angle)+".png", image_array)
     print(steering_angle, throttle)
     send_control(steering_angle, throttle)
 
