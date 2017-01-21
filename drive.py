@@ -22,11 +22,13 @@ tf.python.control_flow_ops = tf
 
 import matplotlib.pyplot as plt
 import cv2
-
+import os
 sio = socketio.Server()
 app = Flask(__name__)
 model = None
 prev_image_array = None
+
+save_imgs = False
 
 @sio.on('telemetry')
 def telemetry(sid, data):
@@ -39,18 +41,20 @@ def telemetry(sid, data):
     # The current image from the center camera of the car
     imgString = data["image"]
     image = Image.open(BytesIO(base64.b64decode(imgString)))
+    image = image.crop((0,50,320,140))
     image_array = np.asarray(image)
     # Crop image
-    image_array = image_array[50:140]
     transformed_image_array = image_array[None, :, :, :]
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
 #    throttle = '0.01' if throttle <= '0.0' else throttle
 #    throttle = str(int(throttle)*1.1) if (int(throttle) < 0.2) else throttle
-    throttle = 0.2
-    cv2.imwrite(str(steering_angle)+".png", image_array)
-    print(steering_angle, throttle)
+    throttle = 0.09
+    #cv2.imwrite(str(steering_angle)+".png", image_array)
+    if save_imgs:
+        image.save(str(steering_angle)+".png", "PNG")
+        print(steering_angle, throttle)
     send_control(steering_angle, throttle)
 
 
@@ -72,6 +76,7 @@ if __name__ == '__main__':
     parser.add_argument('model', type=str,
     help='Path to model definition json. Model weights should be on the same path.')
     args = parser.parse_args()
+    print(os.getpid())
     with open(args.model, 'r') as jfile:
         # NOTE: if you saved the file by calling json.dump(model.to_json(), ...)
         # then you will have to call:
