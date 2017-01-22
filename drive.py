@@ -41,8 +41,9 @@ def telemetry(sid, data):
     # The current image from the center camera of the car
     imgString = data["image"]
     image = Image.open(BytesIO(base64.b64decode(imgString)))
-    image = image.crop((0,50,320,140))
+    image = image.crop((0,50,320,140)).resize((160,45))
     image_array = np.asarray(image)
+    #image_array = image_array.reshape((image_array.shape[0], image_array.shape[1], 1))
     # Crop image
     transformed_image_array = image_array[None, :, :, :]
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
@@ -50,7 +51,7 @@ def telemetry(sid, data):
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
 #    throttle = '0.01' if throttle <= '0.0' else throttle
 #    throttle = str(int(throttle)*1.1) if (int(throttle) < 0.2) else throttle
-    throttle = 0.09
+    throttle = 0.2
     #cv2.imwrite(str(steering_angle)+".png", image_array)
     if save_imgs:
         image.save(str(steering_angle)+".png", "PNG")
