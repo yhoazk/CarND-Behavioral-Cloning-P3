@@ -1,5 +1,8 @@
 
 
+"""
+Tomar muestras de las recuperaciones y filtarlas
+"""
 import cv2
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -32,22 +35,21 @@ def mirror(image, label):
     return (np.add(mirr_img, random.uniform (-0.5, 0.5) ), label)
 
 def add_squares(image, label):
-    n = random.randint(3, 15)
-    x = random.randint(10, 320 - 10)
-    y = random.randint(10, 90 - 10)
-    size = random.randint(5, 20)
-    patches = []
-    for i in range(N):
-        polygon = Rectangle((x,y), size, size)
-        patches.append(polygon)
+    n = random.randint(5, 15) # number of rect
 
-    p = PatchCollection(patches)
+    for i in range(n):
+        x = random.randint(10, 320 - 10)  # x coorfinate
+        y = random.randint(10, 90 - 10)  # y coordinate of rect
+        size = random.randint(5, 20)  # size of rectangle
+        img = cv2.rectangle(image,(x,y), (x+size, y+size), (-.5,-.5,-.5), -1)
+
+    return (img, label)
     #p.set_array(np.zeros())
 
 
 
 def plot_imgArr(img_arr, label=None, predict=None, gray=False):
-    f, arr = plt.subplots(5,3)
+    f, arr = plt.subplots(5,4)
     print(img_arr[0].shape)
     for n, subplt in enumerate(arr.reshape(-1)):
         if gray:
@@ -61,6 +63,20 @@ def plot_imgArr(img_arr, label=None, predict=None, gray=False):
             subplt.set_title("st:"+str(label[n]) + "p:"+str(predict[n]))
     plt.show()
 
+def augment(image, label):
+
+
+    ops = random.randint(0,4)
+    fncs = [mirror, add_squares,  shift_ul_random, shift_lr_random]
+    for _ in range(ops):
+        fnc = np.random.choice(fncs, replace=False)
+        image, label = fnc(image,label)
+
+    return (image, label)
+
+
+
+
 def preprocessrgb2gray(image_path):
     return np.multiply(np.mean(np.asarray(Image.open(image_path).crop((0, 50, 320, 140))), -1), 1 / 255)
 
@@ -71,20 +87,11 @@ if __name__ == "__main__":
     im,lbl = shift_lr_random(img, LBL)
     imgs = []
     lbls = []
-    for n in range(5):
-        im,lb = shift_lr_random(img, LBL)
+    for n in range(20):
+        im,lb = augment(img.copy(), LBL)
         imgs.append(im)
         lbls.append(lb)
 
-    for n in range(5):
-        im,lb = mirror(img, LBL)
-        imgs.append(im)
-        lbls.append(lb)
-
-    for n in range(5):
-        im, lb = shift_ul_random(img, LBL)
-        imgs.append(im)
-        lbls.append(lb)
 
     plot_imgArr(img_arr=imgs, label=lbls, gray=True)
     plt.show()
