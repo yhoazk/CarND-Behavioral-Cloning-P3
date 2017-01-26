@@ -1,5 +1,4 @@
 
-
 """
 Tomar muestras de las recuperaciones y filtarlas
 """
@@ -64,13 +63,13 @@ def plot_imgArr(img_arr, label=None, predict=None, gray=False):
     plt.show()
 
 def augment(image, label):
+    if random.choice([True, True, True,True, False]):
 
-
-    ops = random.randint(0,4)
-    fncs = [mirror, add_squares,  shift_ul_random, shift_lr_random]
-    for _ in range(ops):
-        fnc = np.random.choice(fncs, replace=False)
-        image, label = fnc(image,label)
+        ops = random.randint(1,4)
+        fncs = [mirror, add_squares,  shift_ul_random, shift_lr_random]
+        for _ in range(ops):
+            fnc = np.random.choice(fncs, replace=False)
+            image, label = fnc(image,label)
 
     return (image, label)
 
@@ -88,6 +87,7 @@ if __name__ == "__main__":
     imgs = []
     lbls = []
     for n in range(20):
+        # apply augmentation to 75% of the images
         im,lb = augment(img.copy(), LBL)
         imgs.append(im)
         lbls.append(lb)
