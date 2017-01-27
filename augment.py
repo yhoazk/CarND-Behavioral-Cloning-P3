@@ -12,7 +12,7 @@ import matplotlib
 from matplotlib.patches import Rectangle
 from matplotlib.collections import PatchCollection
 
-IMG = "D:/workspace/simulator-linux/center_2016_12_01_13_31_12_937.jpg"
+IMG = "./center_2016_12_01_13_31_12_937.jpg"
 LBL = -0.55
 
 def shift_lr_random(image, label =None):
@@ -46,7 +46,6 @@ def add_squares(image, label):
     #p.set_array(np.zeros())
 
 
-
 def plot_imgArr(img_arr, label=None, predict=None, gray=False):
     f, arr = plt.subplots(5,4)
     print(img_arr[0].shape)
@@ -76,11 +75,12 @@ def augment(image, label):
 
 
 
-def preprocessrgb2gray(image_path):
-    return np.multiply(np.mean(np.asarray(Image.open(image_path).crop((0, 50, 320, 140))), -1), 1 / 255)
+def preprocessrgb2gray(image_path, dims):
+    return np.multiply(np.mean(np.asarray(Image.open(image_path).crop(dims)), -1), 1 / 255)
 
+"""
 if __name__ == "__main__":
-    img =preprocessrgb2gray(IMG)
+    img =preprocessrgb2gray(IMG, (0,50,320, 140))
 
     #print(img[0][0:45])
     im,lbl = shift_lr_random(img, LBL)
@@ -95,3 +95,4 @@ if __name__ == "__main__":
 
     plot_imgArr(img_arr=imgs, label=lbls, gray=True)
     plt.show()
+"""

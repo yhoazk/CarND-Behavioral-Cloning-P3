@@ -44,14 +44,16 @@ def telemetry(sid, data):
     # Crop image
     image = image.crop((0,50,320,140))
     image_array = np.asarray(image)
-    image_array = cv2.normalize(image_array, dst=image_array.copy(), alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F) 
+    image_array = cv2.cvtColor( image_array, cv2.COLOR_RGB2GRAY )
+    image_array = cv2.normalize(image_array, dst=image_array.copy(), alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    image_array = image_array.reshape((image_array.shape[0], image_array.shape[1], 1))
     transformed_image_array = image_array[None, :, :, :]
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
 #    throttle = '0.01' if throttle <= '0.0' else throttle
 #    throttle = str(int(throttle)*1.1) if (int(throttle) < 0.2) else throttle
-    throttle = 0.15
+    throttle = 0.18
     #.imwrite(str(steering_angle)+".png", image_array)
     if save_imgs:
         image.save(str(steering_angle)+".png", "PNG")
