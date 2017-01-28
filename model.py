@@ -135,8 +135,9 @@ X = np.asarray(X)
 X = X.reshape((X.shape[0],X.shape[1],X.shape[2],1))
 y = np.asarray(y).astype('float32')
 y = y.reshape((y.shape[0],1))
-
+##
 X,y = shuffle(X,y,random_state=1)
+## Split the dataset to get the validation data, the test will be with the model.
 X, X_val, y, y_val = train_test_split(X, y, random_state=0, test_size=0.2)
 
 
@@ -189,4 +190,3 @@ gc.collect()
 K.clear_session()
 
 print("--- Done ---")
-

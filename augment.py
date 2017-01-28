@@ -59,6 +59,9 @@ def augment(image, label):
 
 
 def preprocessrgb2gray(image_path, dims):
+    """
+    Read the image, crop with the input size andh normalize the value 1/255 RGB
+    """
     return np.multiply(np.mean(np.asarray(Image.open(image_path).crop(dims)), -1), 1 / 255)
 
 
