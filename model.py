@@ -11,6 +11,7 @@ from keras.optimizers import Adam
 import gc
 from keras.callbacks import ModelCheckpoint
 from keras import backend as K
+from keras.utils.visualize_util import plot
 #define constants
 
 
@@ -174,6 +175,8 @@ model.add(Dense(64,activation='tanh'))
 model.add(Dense(32,activation='tanh'))
 model.add(Dense(1))
 model.summary()
+
+plot(model, to_file="model.png")
 
 adam_opt = Adam(lr=0.0001 )
 model.compile(loss='mean_squared_error',optimizer=adam_opt)
