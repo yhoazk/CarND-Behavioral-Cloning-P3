@@ -56,7 +56,7 @@ def telemetry(sid, data):
     #.imwrite(str(steering_angle)+".png", image_array)
     if save_imgs:
         image.save(str(int(time.time()*100))+"_"+ str(steering_angle)+".png", "PNG")
-        
+
     print(steering_angle, throttle, os.getpid())
     send_control(steering_angle, throttle)
 
