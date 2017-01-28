@@ -96,6 +96,11 @@ Here is the distribution of the final dataset.
 ![](./imgs/final_dist.png)
 
 
+The Demo video is available here:
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/68aOj9OH0NU/0.jpg)](https://www.youtube.com/watch?v=68aOj9OH0NU)
+
+
  - - -
 notes:
 
