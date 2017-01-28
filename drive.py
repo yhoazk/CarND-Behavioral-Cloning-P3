@@ -2,7 +2,7 @@
 import argparse
 import base64
 import json
-
+import time
 import numpy as np
 import socketio
 import eventlet
@@ -27,9 +27,8 @@ sio = socketio.Server()
 app = Flask(__name__)
 model = None
 prev_image_array = None
-
+index = 0
 save_imgs = False
-
 @sio.on('telemetry')
 def telemetry(sid, data):
     # The current steering angle of the car
@@ -53,11 +52,12 @@ def telemetry(sid, data):
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
 #    throttle = '0.01' if throttle <= '0.0' else throttle
 #    throttle = str(int(throttle)*1.1) if (int(throttle) < 0.2) else throttle
-    throttle = 0.18
+    throttle = 0.1
     #.imwrite(str(steering_angle)+".png", image_array)
     if save_imgs:
-        image.save(str(steering_angle)+".png", "PNG")
-    print(steering_angle, throttle)
+        image.save(str(int(time.time()*100))+"_"+ str(steering_angle)+".png", "PNG")
+        
+    print(steering_angle, throttle, os.getpid())
     send_control(steering_angle, throttle)
 
 
@@ -79,6 +79,7 @@ if __name__ == '__main__':
     parser.add_argument('model', type=str,
     help='Path to model definition json. Model weights should be on the same path.')
     args = parser.parse_args()
+    index = 0
     with open(args.model, 'r') as jfile:
         # NOTE: if you saved the file by calling json.dump(model.to_json(), ...)
         # then you will have to call:
