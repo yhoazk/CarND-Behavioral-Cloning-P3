@@ -177,7 +177,7 @@ model.add(Dense(32,activation='tanh'))
 model.add(Dense(1))
 model.summary()
 
-plot(model, to_file="model.png")
+plot(model, show_shapes=True,  to_file="model.png")
 
 adam_opt = Adam(lr=0.0001 )
 model.compile(loss='mean_squared_error',optimizer=adam_opt)
